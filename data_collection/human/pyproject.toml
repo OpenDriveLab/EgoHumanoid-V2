@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eh2-human-data"
+version = "0.1.0"
+description = "PICO/GoPro human demonstration collection and synchronization"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    "bleak>=0.22,<1",
+    "numpy>=1.26,<2",
+    "open-gopro>=0.19.8,<0.20",
+    "pyarrow>=15,<18",
+    "scipy>=1.10,<1.16",
+    "telemetry-parser>=0.3,<1",
+]
+
+[project.scripts]
+eh2-collect-human = "human.collect:main"
+eh2-sync-human = "human.processing.sync:main"
+eh2-human-quality = "human.processing.quality:main"
+
+[tool.setuptools]
+packages = ["human", "human.devices", "human.storage", "human.processing", "human.ui"]
+package-dir = {human = "src"}
+
+[tool.setuptools.package-data]
+"human.ui" = ["index.html"]

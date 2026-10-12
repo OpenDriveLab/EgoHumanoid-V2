@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eh2-alignment"
+version = "0.1.0"
+description = "Offline human-to-humanoid alignment components"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26,<2", "scipy>=1.11,<2", "pin>=2.7,<4", "torch>=2.4", "onnx>=1.16,<2", "onnxruntime>=1.18,<2", "pyzmq>=25", "msgpack>=1", "pyarrow>=15,<18", "eh2-human-data==0.1.0"]
+
+[project.scripts]
+eh2-align = "align.pipeline:main"
+eh2-render = "align.render:main"
+eh2-replay = "align.replay:main"
+
+[tool.setuptools]
+packages = ["align", "align.data", "align.correction", "align.refinement", "align.simulation"]
+package-dir = {align = "src"}

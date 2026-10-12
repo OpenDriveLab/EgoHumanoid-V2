@@ -1,0 +1,59 @@
+{
+  "endpoints": "feet",
+  "fps": 50,
+  "human_displacement_cm": 13.319497785633866,
+  "pelvis_limit_cm": 18.319497785633864,
+  "rounds": [
+    {
+      "stage": "H",
+      "position_cm": 9.053510637119016,
+      "pelvis_cm": 13.562825470522982
+    },
+    {
+      "stage": "K",
+      "position_cm": 8.23519928453466,
+      "pelvis_cm": 30.186342345009347
+    },
+    {
+      "stage": "D1",
+      "position_cm": 7.649610031829206,
+      "pelvis_cm": 15.842372734440824
+    },
+    {
+      "stage": "D2",
+      "position_cm": 7.322638054865885,
+      "pelvis_cm": 18.280741759386267
+    },
+    {
+      "stage": "D3",
+      "position_cm": 6.601294386295336,
+      "pelvis_cm": 14.16786927675947
+    },
+    {
+      "stage": "D4",
+      "position_cm": 6.673408112170891,
+      "pelvis_cm": 18.565540626700948
+    },
+    {
+      "stage": "D5",
+      "position_cm": 6.5222999449937324,
+      "pelvis_cm": 18.24171467365237
+    },
+    {
+      "stage": "D6",
+      "position_cm": 6.291149958334685,
+      "pelvis_cm": 19.267933283501208
+    },
+    {
+      "stage": "D7",
+      "position_cm": 6.435358125539989,
+      "pelvis_cm": 22.352633732221896
+    },
+    {
+      "stage": "D8",
+      "position_cm": 6.650986973076667,
+      "pelvis_cm": 16.695027636947447
+    }
+  ],
+  "selected": "D3"
+}

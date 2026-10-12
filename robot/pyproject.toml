@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eh2-robot"
+version = "0.1.0"
+description = "EgoHumanoid robot-side integration adapters"
+requires-python = ">=3.8"
+dependencies = ["numpy>=1.24,<2", "msgpack>=0.6.2,<2"]
+
+[project.scripts]
+eh2-robot-bridge = "robot.state.bridge:main"
+eh2-gopro-relay = "robot.gopro.relay:main"
+
+[project.optional-dependencies]
+bridge = ["pyzmq>=18,<28", "PyYAML>=5.3,<7"]
+
+[tool.setuptools]
+packages = ["robot", "robot.state", "robot.hands", "robot.gopro"]
+package-dir = {robot = "."}

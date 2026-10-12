@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EH2 · Human collection</title>
+<style nonce="__TOKEN__">
+* { box-sizing: border-box; }
+body { margin: 0; background: #f5f6f8; color: #182332; font: 15px/1.5 system-ui, sans-serif; }
+main { max-width: 960px; margin: 48px auto; padding: 0 24px; }
+header { margin-bottom: 28px; }
+header span { color: #53657d; font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+h1 { font-size: 30px; letter-spacing: -.03em; margin: 4px 0; }
+h2 { font-size: 18px; margin: 0 0 20px; }
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+section { background: white; border: 1px solid #dbe1e8; border-radius: 12px; padding: 24px; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+label { display: block; margin-bottom: 14px; font-size: 13px; font-weight: 600; }
+input { display: block; width: 100%; margin-top: 5px; padding: 10px 12px; border: 1px solid #bbc6d3; border-radius: 6px; font: inherit; color: inherit; background: white; }
+input:disabled { background: #f5f6f8; color: #687789; }
+button { border: 1px solid #b8c4d2; background: white; color: #26374c; padding: 11px 16px; border-radius: 6px; font: inherit; font-weight: 600; cursor: pointer; }
+button.primary { background: #2359b8; border-color: #2359b8; color: white; }
+button.danger { color: #a43135; }
+button:disabled { opacity: .4; cursor: default; }
+button:focus-visible, input:focus-visible { outline: 3px solid #91baff; outline-offset: 2px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+#start { width: 100%; margin: 20px 0 12px; }
+#phase { display: inline-block; background: #edf2fa; padding: 6px 12px; border-radius: 6px; font-weight: 600; }
+.counts { display: flex; gap: 52px; margin: 28px 0; }
+.counts span { display: block; color: #627084; font-size: 13px; }
+.counts strong { font-size: 30px; font-variant-numeric: tabular-nums; }
+.muted { color: #627084; font-size: 13px; }
+#output { overflow-wrap: anywhere; }
+#message { min-height: 48px; margin-top: 22px; }
+#error { color: #a43135; overflow-wrap: anywhere; }
+@media (max-width: 700px) { main { margin: 24px auto; padding: 0 16px; } .layout { grid-template-columns: 1fr; } }
+</style>
+<main>
+  <header><span>EH2</span><h1>Human collection</h1></header>
+  <div class="layout">
+    <section>
+      <h2>1. Prepare</h2>
+      <form id="config">
+        <fieldset id="fields">
+          <label>Output folder<input name="data_dir" required value="data"></label>
+          <label>Task folder<input name="task_name" required value="close_laptop"></label>
+          <label>Task description<input name="task" required value="Close the laptop"></label>
+          <label>Host WiFi<input name="gopro_wifi_ssid" placeholder="Auto-detect"></label>
+          <label>WiFi password<input name="gopro_wifi_password" type="password" autocomplete="off" placeholder="Use saved credentials"></label>
+          <label>GoPro Bluetooth address<input name="gopro_ble_address" placeholder="Auto-detect"></label>
+        </fieldset>
+        <div class="actions">
+          <button id="prepare" class="primary" type="submit" disabled>Prepare collection</button>
+          <button id="disconnect" type="button" disabled>Disconnect</button>
+        </div>
+      </form>
+    </section>
+    <section>
+      <h2>2. Record</h2>
+      <div id="phase" role="status">Connecting to UI…</div>
+      <p id="mode" class="muted"></p>
+      <div class="counts">
+        <div><span>Episode index</span><strong id="episode">0</strong></div>
+        <div><span>Motion frames</span><strong id="frames">0</strong></div>
+      </div>
+      <p class="muted">Save to <span id="output">—</span></p>
+      <button id="start" class="primary" disabled>Start recording</button>
+      <div class="actions">
+        <button id="save" disabled>Save episode</button>
+        <button id="discard" class="danger" disabled>Discard episode</button>
+      </div>
+      <p id="message" role="status"></p>
+      <p id="error" role="alert"></p>
+      <p class="muted">Keep this page open while recording. Refreshing preserves the session.</p>
+    </section>
+  </div>
+</main>
+<script nonce="__TOKEN__">
+const token = '__TOKEN__';
+const $ = id => document.getElementById(id);
+const labels = {disconnected:'Not prepared', connecting:'Preparing…', ready:'Ready', starting:'Starting…', recording:'Recording', saving:'Saving & downloading…', discarding:'Discarding…', stopping:'Disconnecting…', error:'Needs attention'};
+let initialized = false, busy = false, requestError = '';
+function lock() { document.querySelectorAll('button').forEach(button => button.disabled = true); }
+function render(state) {
+  if (!initialized) {
+    for (const [key, value] of Object.entries(state.config)) $('config').elements.namedItem(key).value = value;
+    initialized = true;
+  }
+  const editable = ['disconnected','error'].includes(state.phase);
+  $('fields').disabled = !editable || busy;
+  $('prepare').disabled = !editable || busy;
+  $('disconnect').disabled = !['ready','error'].includes(state.phase) || busy;
+  $('start').disabled = state.phase !== 'ready' || busy;
+  $('save').disabled = state.phase !== 'recording' || (!state.frames && !state.gopro_only) || busy;
+  $('discard').disabled = state.phase !== 'recording' || busy;
+  $('phase').textContent = labels[state.phase];
+  $('episode').textContent = state.episode;
+  $('frames').textContent = state.frames;
+  $('mode').textContent = state.gopro_only ? 'GoPro only' : (state.mock ? 'Simulated devices' : (state.gopro ? 'PICO + GoPro' : 'PICO only'));
+  $('output').textContent = `${state.config.data_dir}/${state.config.task_name}/`;
+  $('message').textContent = state.phase === 'saving' ? 'Wait for saving to finish before starting again.' : state.result;
+  $('error').textContent = state.error || requestError;
+}
+async function api(path, body) {
+  const options = {headers: {'X-EH2-Token': token}};
+  if (body !== undefined) { options.method = 'POST'; options.headers['Content-Type'] = 'application/json'; options.body = JSON.stringify(body); }
+  const response = await fetch('/api/' + path, options);
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error);
+  return data;
+}
+async function command(action, body = {}) {
+  busy = true; requestError = ''; lock();
+  try {
+    const state = await api(action, body);
+    if (action === 'connect') $('config').elements.namedItem('gopro_wifi_password').value = '';
+    busy = false; render(state);
+  } catch (error) { busy = false; requestError = error.message; $('error').textContent = requestError; }
+}
+$('config').addEventListener('submit', event => { event.preventDefault(); command('connect', Object.fromEntries(new FormData(event.target))); });
+for (const action of ['start','save','discard','disconnect']) $(action).addEventListener('click', () => command(action));
+async function poll() {
+  try { const state = await api('state'); if (!busy) render(state); }
+  catch (error) { lock(); $('phase').textContent = 'UI disconnected'; $('error').textContent = 'Check the collector terminal and reload this page.'; }
+  setTimeout(poll, 300);
+}
+poll();
+</script>
+</html>
