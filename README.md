@@ -11,7 +11,7 @@
 [![Video](https://img.shields.io/badge/Video-Overview-ea4335)](https://opendrivelab.com/EgoHumanoid-V2/assets/videos/project-overview-v14.mp4)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue)](LICENSE)
 [![Homepage](https://img.shields.io/badge/Homepage-Jin%20Chen-2563eb)](https://jinchen0056.github.io/)
-[![Email](https://img.shields.io/badge/Contact-Email-555555?labelColor=555555)](mailto:cj65000816081@gmail.com)
+[![Email](https://img.shields.io/badge/Contact-Email-2563eb?labelColor=555555)](mailto:cj65000816081@gmail.com)
 
 </div>
 
