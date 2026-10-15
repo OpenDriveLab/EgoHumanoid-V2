@@ -415,8 +415,6 @@ If you use this work, please cite:
 
 We sincerely thank the following projects and teams:
 
-Presentation media comes from the [EgoHumanoid-V2 project page](https://opendrivelab.com/EgoHumanoid-V2/) and paper; assets retain their owners' rights.
-
 | [![OpenPI](https://img.shields.io/badge/OpenPI-Physical%20Intelligence-d58b45)](https://github.com/Physical-Intelligence/openpi) | [![SONIC](https://img.shields.io/badge/SONIC-NVIDIA-76b900)](https://github.com/NVlabs/GR00T-WholeBodyControl) | [![XRoboToolkit](https://img.shields.io/badge/XRoboToolkit-PICO%20VR-397bbf)](https://github.com/XR-Robotics/XRoboToolkit-Unity-Client) | [![Open GoPro](https://img.shields.io/badge/Open%20GoPro-GoPro-009fdf)](https://github.com/gopro/OpenGoPro) |
 | :---: | :---: | :---: | :---: |
 | VLA&nbsp;models | Whole-body&nbsp;control | PICO&nbsp;tracking | GoPro&nbsp;interface |
