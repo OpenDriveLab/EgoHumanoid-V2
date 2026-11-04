@@ -43,7 +43,7 @@ fi
 python="$venv/bin/python"
 "$python" -c 'import sys; assert sys.version_info[:2] == (3, 10), "Existing environment must use Python 3.10"'
 bash "$project_root/setup/install_xrobotoolkit.sh" "$venv"
-"$python" -m pip install -e "$project_root/data_collection/human"
+"$python" -m pip install -e "$project_root/data_collection"
 
 # Imports and CLI checks only: never initialize hardware during installation.
 "$venv/bin/eh2-collect-human" --help >/dev/null

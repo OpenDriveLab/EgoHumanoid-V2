@@ -66,7 +66,7 @@ uv pip install --python .venv/bin/python torch==2.6.0 torchvision==0.21.0 --inde
 uv pip install --python .venv/bin/python -e 'gear_sonic[sim,data_collection]' \
     -e external_dependencies/unitree_sdk2_python 'torch==2.6.0+cpu' \
     'torchvision==0.21.0+cpu' 'huggingface-hub<1' 'opencv-python>=4.8,<4.12'
-uv pip install --python .venv/bin/python -e "$project_root/data_collection/human" \
+uv pip install --python .venv/bin/python -e "$project_root/data_collection" \
     -e "$project_root/data_alignment/action_alignment"
 bash "$project_root/setup/install_xrobotoolkit.sh" "$PWD/.venv"
 # Install frozen endpoint response weights.
