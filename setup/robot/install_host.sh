@@ -76,7 +76,6 @@ from pathlib import Path
 import shutil
 import sys
 import tempfile
-from urllib.request import urlopen
 
 project, sonic = map(Path, sys.argv[1:])
 checksums = {
@@ -84,21 +83,22 @@ checksums = {
     'feet': '771700333b10a753cda4e2020bf0dac05aa1974ff5226cff909fc14d3d71a692',
 }
 for name, checksum in checksums.items():
-    entry = dict(path=f'models/response/{name}.pt', sha256=checksum,
-                 url=f'https://github.com/OpenDriveLab/EgoHumanoid-V2/releases/download/response-models/{name}.pt')
-    target = sonic / entry['path']
+    source = project / 'data_alignment/action_alignment/models/response' / f'{name}.pt'
+    if hashlib.sha256(source.read_bytes()).hexdigest() != checksum:
+        sys.exit(f'Bundled response model checksum mismatch: {source.name}')
+    target = sonic / 'models/response' / f'{name}.pt'
     if target.exists():
-        if hashlib.sha256(target.read_bytes()).hexdigest() != entry['sha256']:
+        if hashlib.sha256(target.read_bytes()).hexdigest() != checksum:
             sys.exit(f'Existing response model differs; left unchanged: {target}')
         continue
     target.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(dir=target.parent, delete=False) as stream:
         temporary = Path(stream.name)
         try:
-            with urlopen(entry['url'], timeout=60) as source:
-                shutil.copyfileobj(source, stream)
+            with source.open('rb') as weights:
+                shutil.copyfileobj(weights, stream)
             stream.flush()
-            if hashlib.sha256(temporary.read_bytes()).hexdigest() != entry['sha256']:
+            if hashlib.sha256(temporary.read_bytes()).hexdigest() != checksum:
                 sys.exit(f'Response model checksum mismatch: {target.name}')
             temporary.replace(target)
         finally:

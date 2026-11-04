@@ -333,7 +333,7 @@ https://github.com/user-attachments/assets/71c1de99-8f2e-4ee1-875c-fe4be36db618
 
 **1. Align motion.**
 
-Place the input recording at `{task_name}/input.parquet`. Set `{endpoints}` to `hands` for hand alignment or `feet` for foot alignment.
+Place the input recording at `{task_name}/input.parquet`. Set `{endpoints}` to `hands` for hand alignment or `feet` for foot alignment. Pretrained hand and foot response MLP weights are included in [models/response](data_alignment/action_alignment/models/response).
 
 ```bash
 eh2-align \
