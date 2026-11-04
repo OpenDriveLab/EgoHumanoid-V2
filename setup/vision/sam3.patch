@@ -1,0 +1,15 @@
+diff --git a/sam3/model/sam3_base_predictor.py b/sam3/model/sam3_base_predictor.py
+index 33ccf8c..c8338b3 100644
+--- a/sam3/model/sam3_base_predictor.py
++++ b/sam3/model/sam3_base_predictor.py
+@@ -148,8 +148,9 @@ class Sam3BasePredictor:
+         init_kwargs = dict(
+             resource_path=resource_path,
+             offload_video_to_cpu=offload_video_to_cpu,
+-            offload_state_to_cpu=offload_state_to_cpu,
+         )
++        if offload_state_to_cpu:
++            init_kwargs["offload_state_to_cpu"] = True
+         if hasattr(self, "async_loading_frames"):
+             init_kwargs["async_loading_frames"] = self.async_loading_frames
+         if hasattr(self, "video_loader_type"):

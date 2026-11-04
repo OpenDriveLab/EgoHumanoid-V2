@@ -1,0 +1,12 @@
+{
+  "task": "pull_curtain",
+  "input": {
+    "rgb_sha256": "cef87127a6e83cd8bda8b0fdb62ee33a1da918c2ec27571627c8100d9989ba16",
+    "joints_sha256": "e5eb6a206b1b56a58547a5cd05cdf4c138d952e29657149b612f23b9e2a31c01",
+    "video_url": "https://github.com/user-attachments/assets/073e3d1b-ab19-477b-8bf5-5bdd19e8bfb3",
+    "motion_file": "motion.npz"
+  },
+  "frames": 497,
+  "fps": 50.0,
+  "aligned_sha256": "f6430fabee0cc7349c3555522e268a89565a953e70de24bf8e7e43d26eeaf714"
+}

@@ -1,0 +1,12 @@
+{
+  "task": "open_fridge",
+  "input": {
+    "rgb_sha256": "49de4799ff9100a40ad0142e8a2b5f403cde84d87372890ba0f61fb65c1314da",
+    "joints_sha256": "63768d6244724fb55bf3667953ae66fd2aab711978717cb14eec91dc48795875",
+    "video_url": "https://github.com/user-attachments/assets/f6b4d3b5-4d71-417d-8c4b-88fa4739a5a6",
+    "motion_file": "motion.npz"
+  },
+  "frames": 986,
+  "fps": 50.0,
+  "aligned_sha256": "d0b112544c8e1ea0a01d61aef844927baea3f9fd769b35eef8d7f769318542b7"
+}

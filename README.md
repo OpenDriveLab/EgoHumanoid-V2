@@ -39,12 +39,13 @@ Visual alignment replaces human arms with rendered robot arms, while training-ti
 2. **Environment Setup**
    - [x] [Robot Control](#robot-runtime-environment)
    - [x] [Human Data Collection](#human-collection-environment)
+   - [x] [Vision Alignment](#vision-alignment-environment)
    - [x] [Policy Training & Serving](#policy-environment)
 3. **Data Collection**
    - [x] [Human Collection](#human-data-collection)
 4. **Data Alignment**
    - [x] **[Action Alignment](#action-alignment)** ⭐
-   - [ ] [Vision Alignment](#vision-alignment)
+   - [x] [Vision Alignment](#vision-alignment)
 5. **Model Training**
    - [ ] Training pipeline
 6. **Policy Deployment**
@@ -132,7 +133,7 @@ Visual alignment replaces human arms with rendered robot arms, while training-ti
 
 ## 💻 Environment Setup
 
-We use three separate environments: one for robot control; one for collecting human demonstrations; and one for policy training and serving.
+Install the environments needed for your workflow below. Action alignment uses the Robot Control environment; vision alignment has its own installer.
 
 <a id="prerequisites"></a>
 
@@ -230,6 +231,34 @@ source .venv-human/bin/activate
 
 </details>
 <br>
+<a id="vision-alignment-environment"></a>
+
+<details>
+<summary>🎨 <strong>Vision Alignment</strong></summary>
+
+<p></p>
+
+Tested on Linux with a 48 GB NVIDIA GPU. Allow about 35 GB of disk space. Requires [uv](https://docs.astral.sh/uv/getting-started/installation/), FFmpeg, and an NVIDIA driver compatible with CUDA 13.0; reuse these if already installed.
+
+**1. Obtain model access.** Request access to [SAM 3.1](https://huggingface.co/facebook/sam3.1), then authenticate:
+
+```bash
+uvx --from huggingface_hub hf auth login
+```
+
+**2. Install the environments and models.**
+
+```bash
+bash setup/vision/install.sh
+```
+
+The installer creates two isolated environments under `runtime/vision`: Python 3.12 for segmentation/rendering and Python 3.10 for inpainting. It downloads pinned models and verifies their checksums. The alignment command calls both environments automatically; no manual switching is needed.
+
+Installation scripts, dependency pins, model manifests, and the SAM compatibility patch are in [`setup/vision/`](setup/vision/). Processing code, tests, and example motion files are in [`data_alignment/vision_alignment/`](data_alignment/vision_alignment/).
+
+</details>
+<br>
+
 <a id="policy-environment"></a>
 
 <details>
@@ -370,7 +399,124 @@ Each command saves `replay.mp4` in its output directory. Results may vary slight
 
 ### 🎨 Vision Alignment
 
-Coming soon.
+The pipeline replaces human arms with rendered **G1 arms** while preserving the original gloves and hand–object contact. We upgrade the paper's **SAM 2** to **[SAM 3.1](https://github.com/facebookresearch/sam3)** for more robust arm and wrist-tracker segmentation. **[DiffuEraser](https://github.com/lixiaowen-xw/DiffuEraser)** reconstructs the background.
+
+Synchronized joint trajectories drive the G1 model through an approximate virtual camera. Wrist locations and segmentation masks then refine the rendered arms' placement in the image without changing the joint angles.
+
+The examples below demonstrate visual alignment for closing a laptop, opening a fridge, and pulling a curtain. Each row shows **RGB → Mask → Inpainting → Robot-arm rendering**. Download the video and motion files to reproduce the results.
+
+**Close Laptop** · [Video](https://github.com/user-attachments/assets/aee7625e-2b8a-4de2-9e74-f549cf8324f6) · [Motion](https://github.com/OpenDriveLab/EgoHumanoid-V2/raw/refs/heads/main/data_alignment/vision_alignment/examples/close_laptop/motion.npz)
+
+<table>
+<tr>
+<th width="25%">Human RGB</th>
+<th width="25%">SAM 3.1 Mask</th>
+<th width="25%">Inpainting</th>
+<th width="25%">Robot-arm Rendering</th>
+</tr>
+<tr>
+<td width="25%">
+
+<img src="assets/vision_alignment/close_laptop/rgb.webp" width="100%" alt="Close Laptop animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/close_laptop/mask.webp" width="100%" alt="Close Laptop animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/close_laptop/inpaint.webp" width="100%" alt="Close Laptop animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/close_laptop/render.webp" width="100%" alt="Close Laptop animation">
+
+</td>
+</tr>
+</table>
+
+**Open Fridge** · [Video](https://github.com/user-attachments/assets/f6b4d3b5-4d71-417d-8c4b-88fa4739a5a6) · [Motion](https://github.com/OpenDriveLab/EgoHumanoid-V2/raw/refs/heads/main/data_alignment/vision_alignment/examples/open_fridge/motion.npz)
+
+<table>
+<tr>
+<th width="25%">Human RGB</th>
+<th width="25%">SAM 3.1 Mask</th>
+<th width="25%">Inpainting</th>
+<th width="25%">Robot-arm Rendering</th>
+</tr>
+<tr>
+<td width="25%">
+
+<img src="assets/vision_alignment/open_fridge/rgb.webp" width="100%" alt="Open Fridge animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/open_fridge/mask.webp" width="100%" alt="Open Fridge animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/open_fridge/inpaint.webp" width="100%" alt="Open Fridge animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/open_fridge/render.webp" width="100%" alt="Open Fridge animation">
+
+</td>
+</tr>
+</table>
+
+**Pull Curtain** · [Video](https://github.com/user-attachments/assets/073e3d1b-ab19-477b-8bf5-5bdd19e8bfb3) · [Motion](https://github.com/OpenDriveLab/EgoHumanoid-V2/raw/refs/heads/main/data_alignment/vision_alignment/examples/pull_curtain/motion.npz)
+
+<table>
+<tr>
+<th width="25%">Human RGB</th>
+<th width="25%">SAM 3.1 Mask</th>
+<th width="25%">Inpainting</th>
+<th width="25%">Robot-arm Rendering</th>
+</tr>
+<tr>
+<td width="25%">
+
+<img src="assets/vision_alignment/pull_curtain/rgb.webp" width="100%" alt="Pull Curtain animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/pull_curtain/mask.webp" width="100%" alt="Pull Curtain animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/pull_curtain/inpaint.webp" width="100%" alt="Pull Curtain animation">
+
+</td>
+<td width="25%">
+
+<img src="assets/vision_alignment/pull_curtain/render.webp" width="100%" alt="Pull Curtain animation">
+
+</td>
+</tr>
+</table>
+
+**Align a recording.**
+
+Save the video as `{task_name}/rgb.mp4` and its synchronized motion as `{task_name}/motion.npz`. The NPZ contains `body_q` (29 G1 joint angles in radians per frame), `joint_names`, and `fps` matching the video.
+
+```bash
+runtime/vision/.venv-sam/bin/eh2-visual-align \
+  --video "{task_name}/rgb.mp4" \
+  --motion "{task_name}/motion.npz" \
+  --runtime "runtime/vision" \
+  --output "results/{task_name}"
+```
+
+Results are saved under `results/{task_name}/`: `aligned.mp4` contains the aligned video; `run.json` records settings and completed stages.
 
 <p></p>
 

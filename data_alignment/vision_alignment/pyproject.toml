@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eh2-vision-alignment"
+version = "0.1.0"
+description = "Human-to-robot visual alignment with SAM 3.1 and DiffuEraser"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26,<2", "opencv-python-headless==4.11.0.86", "scipy>=1.13", "mujoco==3.8.1"]
+
+[project.scripts]
+eh2-visual-align = "visual_align.pipeline:main"
+
+[tool.setuptools]
+packages = ["visual_align"]
+package-dir = {visual_align = "src"}
+
+[tool.setuptools.package-data]
+visual_align = ["assets/*.json"]

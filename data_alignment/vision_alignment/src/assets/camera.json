@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "parent_frame": "torso_link",
+  "camera_model": "pinhole_without_distortion",
+  "camera": {
+    "position_parent_m": [
+      0.06,
+      0.0,
+      0.45
+    ],
+    "rotation_camera_axes_in_parent": [
+      [
+        0.018193627396,
+        0.727203797596,
+        -0.686180463297
+      ],
+      [
+        -0.99794966324,
+        -0.028912559672,
+        -0.057101082908
+      ],
+      [
+        -0.061363357913,
+        0.685812437496,
+        0.725186760603
+      ]
+    ],
+    "vertical_fov_degrees": 53.1555678,
+    "width": 1280,
+    "height": 720
+  },
+  "known_limitations": [
+    "These parameters are an approximate rendering prior, not a measured GoPro or RealSense calibration.",
+    "Lens distortion and per-frame HyperSmooth crop or warp are not modeled.",
+    "Image-space alignment adjusts rendered arm layers without changing input joint angles."
+  ],
+  "description": "Shared approximate virtual camera for initial G1 projection. Image-derived cuff locations and arm masks refine the projected arms in 2D."
+}

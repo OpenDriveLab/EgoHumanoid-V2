@@ -1,0 +1,163 @@
+{
+  "sam3": {
+    "url": "https://github.com/facebookresearch/sam3.git",
+    "revision": "f1647e8d0c1d280991f4d1b7d974c2704537fe66"
+  },
+  "diffueraser": {
+    "url": "https://github.com/lixiaowen-xw/DiffuEraser.git",
+    "revision": "8e6f279ac7531e27ad1849c6f8dab5372a8597e7"
+  },
+  "unitree_ros": {
+    "url": "https://github.com/unitreerobotics/unitree_ros.git",
+    "revision": "43e9f3e34265f52a19b2c4b264dc92c4241dde3b"
+  },
+  "sam_checkpoint": {
+    "repo": "facebook/sam3.1",
+    "revision": "daa63191845a41281374e725f4c9e51c7a824460",
+    "filename": "sam3.1_multiplex.pt",
+    "sha256": "0567debeec80ba4ac6369540c6c248025283cb3ff2b92827509e57e2b3541cb6"
+  },
+  "inpaint_weights": [
+    {
+      "path": "PCM_Weights/sd15/pcm_sd15_smallcfg_2step_converted.safetensors",
+      "sha256": "4c5f27a727d12146de4b1d987cee3343bca89b085d12b03c45297af05ce88ef4",
+      "repo": "wangfuyun/PCM_Weights",
+      "revision": "39560fead4ce00f94db3cb8e93dd8fba90ec0be6",
+      "filename": "sd15/pcm_sd15_smallcfg_2step_converted.safetensors"
+    },
+    {
+      "path": "diffuEraser/brushnet/config.json",
+      "sha256": "92174cb0cd518a72aed116c519f3fdb4a35bb76af58b2079ed9d94fceec7c9e3",
+      "repo": "lixiaowen/diffuEraser",
+      "revision": "ad510dca07fa8e155d4bd8d002085bb8ec8f60e5",
+      "filename": "brushnet/config.json"
+    },
+    {
+      "path": "diffuEraser/brushnet/diffusion_pytorch_model.safetensors",
+      "sha256": "5f195c3984af3409cdb4dca7d769fcc25e3d888e389b30790d4b56a9d3c96645",
+      "repo": "lixiaowen/diffuEraser",
+      "revision": "ad510dca07fa8e155d4bd8d002085bb8ec8f60e5",
+      "filename": "brushnet/diffusion_pytorch_model.safetensors"
+    },
+    {
+      "path": "diffuEraser/unet_main/config.json",
+      "sha256": "3400053062af89e978c505c2771d77083721164cf7d394e0ffc780d0f20a2749",
+      "repo": "lixiaowen/diffuEraser",
+      "revision": "ad510dca07fa8e155d4bd8d002085bb8ec8f60e5",
+      "filename": "unet_main/config.json"
+    },
+    {
+      "path": "diffuEraser/unet_main/diffusion_pytorch_model.safetensors",
+      "sha256": "fa67bf91027d6a67fcf7aba70c876f2fdf23691bd5026b8e017742fa516a64a8",
+      "repo": "lixiaowen/diffuEraser",
+      "revision": "ad510dca07fa8e155d4bd8d002085bb8ec8f60e5",
+      "filename": "unet_main/diffusion_pytorch_model.safetensors"
+    },
+    {
+      "path": "sd-vae-ft-mse/config.json",
+      "sha256": "92d3dfb746fca211a2c9e019e285f8597412211728dce3c5bcf4eda0f2d62e7e",
+      "repo": "stabilityai/sd-vae-ft-mse",
+      "revision": "31f26fdeee1355a5c34592e401dd41e45d25a493",
+      "filename": "config.json"
+    },
+    {
+      "path": "sd-vae-ft-mse/diffusion_pytorch_model.safetensors",
+      "sha256": "a1d993488569e928462932c8c38a0760b874d166399b14414135bd9c42df5815",
+      "repo": "stabilityai/sd-vae-ft-mse",
+      "revision": "31f26fdeee1355a5c34592e401dd41e45d25a493",
+      "filename": "diffusion_pytorch_model.safetensors"
+    },
+    {
+      "path": "stable-diffusion-v1-5/feature_extractor/preprocessor_config.json",
+      "sha256": "2a1da83b5e1032aaeef397552ddb408dca0d8cd1dc58f61bf6abf38d6f33a0a2",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "feature_extractor/preprocessor_config.json"
+    },
+    {
+      "path": "stable-diffusion-v1-5/model_index.json",
+      "sha256": "e2f6f22e274374010aec30c79eb2d6e53fff4a36ac0225523a92cb2d41a83347",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "model_index.json"
+    },
+    {
+      "path": "stable-diffusion-v1-5/safety_checker/config.json",
+      "sha256": "5dd77a06cbd9b155060bd58deb81ffd1aafc1c6d7970acac674c1128bd4edfe2",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "safety_checker/config.json"
+    },
+    {
+      "path": "stable-diffusion-v1-5/safety_checker/model.safetensors",
+      "sha256": "9d6a233ff6fd5ccb9f76fd99618d73369c52dd3d8222376384d0e601911089e8",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "safety_checker/model.safetensors"
+    },
+    {
+      "path": "stable-diffusion-v1-5/scheduler/scheduler_config.json",
+      "sha256": "699cce92eb7c122e2eb7dfdea78e6187fda76a5ed4a8e42319b85610e620e091",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "scheduler/scheduler_config.json"
+    },
+    {
+      "path": "stable-diffusion-v1-5/text_encoder/config.json",
+      "sha256": "845df614cb9327ae7bbea027316246fae917827407da6df13572e41b5f93b4cc",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "text_encoder/config.json"
+    },
+    {
+      "path": "stable-diffusion-v1-5/text_encoder/model.safetensors",
+      "sha256": "d008943c017f0092921106440254dbbe00b6a285f7883ec8ba160c3faad88334",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "text_encoder/model.safetensors"
+    },
+    {
+      "path": "stable-diffusion-v1-5/tokenizer/merges.txt",
+      "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "tokenizer/merges.txt"
+    },
+    {
+      "path": "stable-diffusion-v1-5/tokenizer/special_tokens_map.json",
+      "sha256": "c4864a9376a8401918425bed71fc14fc0e81f9b59ec45c1cf96cccb2df508eac",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "tokenizer/special_tokens_map.json"
+    },
+    {
+      "path": "stable-diffusion-v1-5/tokenizer/tokenizer_config.json",
+      "sha256": "00439066fcba73de57644cf41e4e3b9f2dbb09d7f3fc2005898ba52399045882",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "tokenizer/tokenizer_config.json"
+    },
+    {
+      "path": "stable-diffusion-v1-5/tokenizer/vocab.json",
+      "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349",
+      "repo": "stable-diffusion-v1-5/stable-diffusion-v1-5",
+      "revision": "451f4fe16113bff5a5d2269ed5ad43b0592e9a14",
+      "filename": "tokenizer/vocab.json"
+    },
+    {
+      "path": "propainter/raft-things.pth",
+      "sha256": "fcfa4125d6418f4de95d84aec20a3c5f4e205101715a79f193243c186ac9a7e1",
+      "url": "https://github.com/sczhou/ProPainter/releases/download/v0.1.0/raft-things.pth"
+    },
+    {
+      "path": "propainter/recurrent_flow_completion.pth",
+      "sha256": "22939a1a7900da878dbe1ccd011d646b1bfb30b8290039d8ff0e0c2fefbfd283",
+      "url": "https://github.com/sczhou/ProPainter/releases/download/v0.1.0/recurrent_flow_completion.pth"
+    },
+    {
+      "path": "propainter/ProPainter.pth",
+      "sha256": "12c070c4b48f374c91d8a2a17851140b85c159621080989f9e191bbc18bd6591",
+      "url": "https://github.com/sczhou/ProPainter/releases/download/v0.1.0/ProPainter.pth"
+    }
+  ]
+}

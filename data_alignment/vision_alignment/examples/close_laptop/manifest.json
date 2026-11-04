@@ -1,0 +1,12 @@
+{
+  "task": "close_laptop",
+  "input": {
+    "rgb_sha256": "925a49784a7035ed94fc7545102ccc18d061d2a9077ddb4eb3a6aa50d4cf57be",
+    "joints_sha256": "07cfe1e6e1613c8c8899c20399789ae58ed04c9165c8dee0bb28deee0877a84f",
+    "video_url": "https://github.com/user-attachments/assets/aee7625e-2b8a-4de2-9e74-f549cf8324f6",
+    "motion_file": "motion.npz"
+  },
+  "frames": 604,
+  "fps": 50.0,
+  "aligned_sha256": "da45a83af7d4163901cc77047e99349991c1142a435dc069d9f4386b58dac8ad"
+}
