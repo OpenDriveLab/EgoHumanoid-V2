@@ -21,9 +21,18 @@ fi
 [[ -e "$openpi/.git" ]] || fail "Existing target is not a Git checkout; left unchanged."
 [[ "$(git -C "$openpi" rev-parse HEAD)" == "$revision" ]] || fail "Existing OpenPI revision differs; left unchanged."
 cd "$openpi"
+patch="$project_root/setup/policy/openpi.patch"
+if git apply --reverse --check "$patch" 2>/dev/null; then
+    echo "OpenPI policy patch already applied."
+elif git apply --check "$patch"; then
+    git apply "$patch"
+else
+    fail "OpenPI files differ from the expected version; left unchanged."
+fi
 git submodule update --init --recursive
 uv sync --frozen --no-dev
 uv pip install --reinstall-package transformers --link-mode copy transformers==4.53.2
 cp -r src/openpi/models_pytorch/transformers_replace/. .venv/lib/python3.11/site-packages/transformers/
+uv pip install -e "$project_root/model_training"
 uv pip check
 echo "Installed OpenPI. Activate with: source \"$openpi/.venv/bin/activate\""

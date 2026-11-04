@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eh2-policy"
+version = "0.1.0"
+description = "EgoHumanoid-V2 policy training and serving"
+requires-python = ">=3.11"
+dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "pillow>=10,<12"]
+
+[project.scripts]
+eh2-train = "eh2_policy.train:main"
+eh2-norm-stats = "eh2_policy.compute_norm_stats:main"
+eh2-serve = "eh2_policy.serve:main"
+
+[tool.setuptools]
+packages = ["eh2_policy"]
+package-dir = {eh2_policy = "src"}

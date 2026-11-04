@@ -31,8 +31,6 @@ Visual alignment replaces human arms with rendered robot arms, while training-ti
 
 ### Workflow & Release Checklist
 
-> **Coming soon:** The remaining unchecked items are expected to be released within the next two weeks. Stay tuned!
-
 1. **Hardware Setup**
    - [x] [Robot Hardware](#robot-hardware)
    - [x] [Human Hardware](#human-data-collection-hardware)
@@ -47,9 +45,9 @@ Visual alignment replaces human arms with rendered robot arms, while training-ti
    - [x] **[Action Alignment](#action-alignment)** ⭐
    - [x] [Vision Alignment](#vision-alignment)
 5. **Model Training**
-   - [ ] Training pipeline
+   - [x] [Training pipeline](#model-training)
 6. **Policy Deployment**
-   - [ ] Deployment pipeline
+   - [x] [Deployment pipeline](#deployment)
 
 ---
 
@@ -524,7 +522,44 @@ Results are saved under `results/{task_name}/`: `aligned.mp4` contains the align
 
 ## 🤖 Model Training
 
-Coming soon.
+We fine-tune **π₀.₅** to predict SONIC motion tokens and Revo2 hand commands from aligned human demonstrations.
+
+**1. Prepare data and weights.**
+
+Use a LeRobot dataset with task instructions in its metadata and the following synchronized columns. State and hand channels must follow the controller's ordering.
+
+| Column | Content |
+|---|---|
+| `observation.images.ego_view` or `observation.images.gopro` | Aligned RGB image |
+| `observation.state` | 43-dimensional G1 state |
+| `action.motion_token` | 64-dimensional SONIC token |
+| `teleop.left_hand_joints`, `teleop.right_hand_joints` | 6 Revo2 commands per hand |
+
+Download [pi05_base](https://github.com/Physical-Intelligence/openpi#base-models) and [convert it to PyTorch](https://github.com/Physical-Intelligence/openpi#converting-jax-models-to-pytorch).
+
+**2. Compute normalization statistics.**
+
+```bash
+eh2-norm-stats \
+  --dataset "data/{task_name}" \
+  --assets "assets/policy"
+```
+
+**3. Train.** The defaults are 30,000 steps, global batch size 256, and a 100-frame action horizon. This command uses eight GPUs:
+
+```bash
+torchrun --standalone --nnodes=1 --nproc_per_node=8 \
+  --module eh2_policy.train \
+  --dataset "data/{task_name}" \
+  --pretrained "checkpoints/pi05_base_pytorch" \
+  --name "{run_name}" \
+  --assets "assets/policy" \
+  --output "checkpoints"
+```
+
+For one GPU, use `eh2-train` with the same arguments and a smaller `--batch-size`. Set `--action-horizon` consistently for statistics and training. Image augmentation is enabled by default; `--no-image-augmentation` disables it.
+
+Checkpoints are saved under `checkpoints/eh2/{run_name}/{step}/` with weights, normalization statistics, and serving settings. Use `--resume` to continue training.
 
 <p></p>
 
@@ -532,7 +567,31 @@ Coming soon.
 
 ## 🚀 Policy Deployment
 
-Coming soon.
+**1. Serve the policy.** In the Policy Training & Serving environment:
+
+```bash
+eh2-serve \
+  --checkpoint "checkpoints/eh2/{run_name}/{step}" \
+  --host 0.0.0.0 \
+  --port 8000
+```
+
+Serving settings are loaded from the checkpoint; random image augmentation is disabled.
+
+**2. Connect SONIC.** Start the controller following the [SONIC deployment procedure](https://nvlabs.github.io/GR00T-WholeBodyControl/tutorials/vla_inference.html) and enable the GoPro stream. In the Robot Control host environment, run from this repository's root:
+
+```bash
+source sonic/.venv/bin/activate
+python sonic/gear_sonic/scripts/run_vla_inference.py \
+  --host "{policy_host}" \
+  --port 8000 \
+  --camera-host "{camera_host}" \
+  --camera-port 5559 \
+  --prompt "{task_instruction}" \
+  --enable-control
+```
+
+The client starts paused. Use the controller's keyboard workflow to initialize and begin execution.
 
 <p></p>
 
